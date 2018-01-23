@@ -45,9 +45,16 @@ function asyncTimesTen(x, callBack) {
   }, 200)
 }
 
-// Create this function!
 function waterfall(arg, tasks, cb) {
-  cb(new Error('waterfall function not implemented'));
+    if(tasks.length === 0){
+      return cb(null, arg)
+    }
+    tasks[0](arg, function(err, arg){
+        if (err){
+          return cb(err)
+        }
+        return waterfall(arg, tasks.slice(1), cb) 
+    });
 }
 
 waterfall(3, [
@@ -72,4 +79,3 @@ waterfall(3, [
 - [Error-first callbacks](http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/)
 - [Compose function](http://blakeembrey.com/articles/2014/01/compose-functions-javascript/)
 - [Synchronous vs. Asynchronous](http://rowanmanning.com/posts/javascript-for-beginners-async/)
-- [setTimeout()](https://www.w3schools.com/jsref/met_win_settimeout.asp)
