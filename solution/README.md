@@ -45,15 +45,15 @@ function asyncTimesTen(x, callBack) {
   }, 200)
 }
 
-function waterfall(args, tasks, cb) {
+function waterfall(arg, tasks, cb) {
     if(tasks.length === 0){
-      return cb(null, args)
+      return cb(null, arg)
     }
-    tasks[0](args, function(err, arg){
+    tasks[0](arg, function(err, newArg){
         if (err){
           return cb(err)
         }
-        return waterfall(arg, tasks.slice(1), cb) 
+        return waterfall(newArg, tasks.slice(1), cb) 
     });
 }
 
