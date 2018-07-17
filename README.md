@@ -59,13 +59,7 @@ waterfall(3, [asyncAddOne, asyncDouble, asyncTimesTen], function(result) {
 });
 ```
 
-Waterfall will apply the previous function's result to the next, for example:
-
-`waterfall(argument, [fn1, fn2, fn3,...], cb)` will return :
-
-`cb(fn_n(fn_n-1(...fn3(fn2(fn1(argument))))))`
-
-Since the input functions are async what waterfall is trying to abstract is the
+Waterfall will apply the previous function's result to the next, since the input functions are async, what waterfall is trying to abstract is the
 following:
 
 ```js
@@ -80,7 +74,7 @@ asyncAddOne(3, function(res) {
 });
 ```
 
-The waterfall function, abstracts all these function calls and hides the cb hell that you see above.
+The waterfall function, abstracts all these function calls (assuming we have any number of functions passed) and hides the cb hell that you see above.
 
 ### Glossary:
 
