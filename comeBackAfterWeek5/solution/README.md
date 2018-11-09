@@ -25,64 +25,60 @@ The waterfall function takes three arguments:
 
 3. For bonus points, create some additional tests for the waterfall function.
 
-```js
+```
 function asyncAddOne(x, callBack) {
   setTimeout(function() {
-    return callBack(x + 1);
-  }, 200);
+    if (typeof x !== 'number'){ return callBack(new Error('need a number!')) }
+    else { return callBack(null, x + 1) }
+  }, 200)
 }
 
 function asyncDouble(x, callBack) {
   setTimeout(function() {
-    return callBack(x * 2);
-  }, 200);
+    if (typeof x !== 'number') { return callBack(new Error('need a number!')) }
+    else { return callBack(null, x * 2) }
+  }, 200)
 }
 
 function asyncTimesTen(x, callBack) {
   setTimeout(function() {
-    return callBack(x * 10);
-  }, 200);
+    if (typeof x !== 'number') { return callBack(new Error('need a number!')) }
+    else { return callBack(null, x * 10) }
+  }, 200)
 }
 
-// Create this function!
 function waterfall(arg, tasks, cb) {
-  if (tasks.length === 0) {
-    return cb(arg);
-  }
-  tasks[0](arg, function(newArg) {
-    return waterfall(newArg, tasks.slice(1), cb);
-  });
+    if(tasks.length === 0){
+      return cb(null, arg)
+    }
+    tasks[0](arg, function(err, newArg){
+        if (err){
+          return cb(err)
+        }
+        return waterfall(newArg, tasks.slice(1), cb)
+    });
 }
 
-waterfall(3, [asyncAddOne, asyncDouble, asyncTimesTen], function(result) {
+waterfall(3, [
+  asyncAddOne,
+  asyncDouble,
+  asyncTimesTen
+], function(error, result) {
   console.log('Test 1');
-  if (result !== 80) {
-    console.log('test failed, expected 80 but got', result);
-  } else {
-    console.log('Test 1 passed!');
+  if (error) {
+    console.log('test failed, ' + error)
   }
-});
+  else if (result !== 80) {
+    console.log('test failed, expected 80 but got', result)
+  }
+  else {
+    console.log('Test 1 passed!')
+  }
+})
 ```
-
-Waterfall will apply the previous function's result to the next, since the input functions are async, what waterfall is trying to abstract is the
-following:
-
-```js
-function callback(result) {
-  console.log(result);
-}
-
-asyncAddOne(3, function(res) {
-  asyncDouble(res, function(res2) {
-    asyncTimesTen(res2, callback);
-  });
-});
-```
-
-The waterfall function, abstracts all these function calls (assuming we have any number of functions passed) and hides the cb hell that you see above.
 
 ### Glossary:
 
+* [Error-first callbacks](http://fredkschott.com/post/2014/03/understanding-error-first-callbacks-in-node-js/)
 * [Compose function](http://blakeembrey.com/articles/2014/01/compose-functions-javascript/)
 * [Synchronous vs. Asynchronous](http://rowanmanning.com/posts/javascript-for-beginners-async/)
-* [setTimeout()](https://www.w3schools.com/jsref/met_win_settimeout.asp)
