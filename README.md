@@ -27,21 +27,15 @@ The waterfall function takes three arguments:
 
 ```js
 function asyncAddOne(x, callBack) {
-  setTimeout(function() {
-    return callBack(x + 1);
-  }, 200);
+  setTimeout(() => callBack(x + 1), 200);
 }
 
 function asyncDouble(x, callBack) {
-  setTimeout(function() {
-    return callBack(x * 2);
-  }, 200);
+  setTimeout(() => callBack(x * 2), 200);
 }
 
 function asyncTimesTen(x, callBack) {
-  setTimeout(function() {
-    return callBack(x * 10);
-  }, 200);
+  setTimeout(() => callBack(x * 10), 200);
 }
 
 // Create this function!
@@ -49,12 +43,12 @@ function waterfall(arg, tasks, cb) {
   cb(null);
 }
 
-waterfall(3, [asyncAddOne, asyncDouble, asyncTimesTen], function(result) {
-  console.log('Test 1');
+waterfall(3, [asyncAddOne, asyncDouble, asyncTimesTen], result => {
+  console.log("Test 1");
   if (result !== 80) {
-    console.log('test failed, expected 80 but got', result);
+    console.log("test failed, expected 80 but got", result);
   } else {
-    console.log('Test 1 passed!');
+    console.log("Test 1 passed!");
   }
 });
 ```
@@ -67,8 +61,8 @@ function callback(result) {
   console.log(result);
 }
 
-asyncAddOne(3, function(res) {
-  asyncDouble(res, function(res2) {
+asyncAddOne(3, res => {
+  asyncDouble(res, res2 => {
     asyncTimesTen(res2, callback);
   });
 });
@@ -78,6 +72,6 @@ The waterfall function, abstracts all these function calls (assuming we have any
 
 ### Glossary:
 
-* [Compose function](http://blakeembrey.com/articles/2014/01/compose-functions-javascript/)
-* [Synchronous vs. Asynchronous](http://rowanmanning.com/posts/javascript-for-beginners-async/)
-* [setTimeout()](https://www.w3schools.com/jsref/met_win_settimeout.asp)
+- [Compose function](http://blakeembrey.com/articles/2014/01/compose-functions-javascript/)
+- [Synchronous vs. Asynchronous](http://rowanmanning.com/posts/javascript-for-beginners-async/)
+- [setTimeout()](https://www.w3schools.com/jsref/met_win_settimeout.asp)
