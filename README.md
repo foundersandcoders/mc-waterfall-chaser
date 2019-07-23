@@ -70,6 +70,10 @@ asyncAddOne(3, res => {
 
 The waterfall function, abstracts all these function calls (assuming we have any number of functions passed) and hides the cb hell that you see above.
 
+### Solution
+
+You can see a full solution in [`solution/solution.js`](./solution/solution.js). There's also a full step-by-step explanation in [`solution/README.md`](./solution).
+
 ### Glossary:
 
 - [Compose function](http://blakeembrey.com/articles/2014/01/compose-functions-javascript/)
